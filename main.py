@@ -1,11 +1,12 @@
 from tkinter import S
 import pygame
 import random
+import time
 pygame.init()
 
 surface = pygame.display.set_mode((550, 550))
 
-size = 5
+size = 20
 color = (255,255,255)
 running = True
 squareGroups = []
@@ -58,6 +59,7 @@ def deleteOne():
                 else:
                     currentChoice = random.choice(currentIndexes)
             else:
+                print("horizontal" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[((thisRow+1)*size) + thisColumn]))
                 horizontalLines[currentChoice] = False
                 changingIndexes = []
                 for x in range(len(squareGroups)):
@@ -90,6 +92,7 @@ def deleteOne():
                 else:
                     currentChoice = random.choice(currentIndexes)
             else:
+                print("vertical" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[(thisRow*size) + thisColumn + 1]))
                 verticalLines[currentChoice] = False
                 changingIndexes = []
                 for x in range(len(squareGroups)):
@@ -102,14 +105,13 @@ def deleteOne():
 
 while horizontalDone == False & verticalDone == False:
     deleteOne()
-
-for x in range(size):
-    for y in range(size-1):
-        if(horizontalLines[x*(size-1) + y]):
+for y in range(size-1):
+    for x in range(size):
+        if(horizontalLines[y*size + x] == True):
             pygame.draw.rect(surface, color, pygame.Rect((x*25) + 25, (y*25) + 50, 25, 2))
-for x in range(size-1):
-    for y in range(size):
-        if(verticalLines[x + y*(size-1)]):
+for y in range(size):
+    for x in range(size-1):
+        if(verticalLines[y*(size-1) + x] == True):
             pygame.draw.rect(surface, color, pygame.Rect((x*25) + 50, (y*25) + 25, 2, 25))
 
 while running:
