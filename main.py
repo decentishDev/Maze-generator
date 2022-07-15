@@ -104,6 +104,7 @@ def deleteOne():
 
 while horizontalDone == False & verticalDone == False:
     deleteOne()
+    
 for y in range(size-1):
     for x in range(size):
         if(horizontalLines[y*size + x] == True):
