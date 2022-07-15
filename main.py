@@ -1,7 +1,6 @@
 from tkinter import S
 import pygame
 import random
-import time
 pygame.init()
 
 surface = pygame.display.set_mode((550, 550))
