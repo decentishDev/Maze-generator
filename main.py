@@ -58,7 +58,7 @@ def deleteOne():
                 else:
                     currentChoice = random.choice(currentIndexes)
             else:
-                print("horizontal" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[((thisRow+1)*size) + thisColumn]))
+                #print("horizontal" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[((thisRow+1)*size) + thisColumn]))
                 horizontalLines[currentChoice] = False
                 changingIndexes = []
                 for x in range(len(squareGroups)):
@@ -91,7 +91,7 @@ def deleteOne():
                 else:
                     currentChoice = random.choice(currentIndexes)
             else:
-                print("vertical" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[(thisRow*size) + thisColumn + 1]))
+                #print("vertical" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[(thisRow*size) + thisColumn + 1]))
                 verticalLines[currentChoice] = False
                 changingIndexes = []
                 for x in range(len(squareGroups)):
