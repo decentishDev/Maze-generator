@@ -14,8 +14,8 @@ verticalLines = []
 horizontalDone = False
 verticalDone = False
 
-pygame.draw.rect(surface, color, pygame.Rect(25, 25, size*25, 2))
-pygame.draw.rect(surface, color, pygame.Rect(25, (size*25) + 25, size*25, 2))
+pygame.draw.rect(surface, color, pygame.Rect(25, 25, (size - 1 ) * 25, 2))
+pygame.draw.rect(surface, color, pygame.Rect(50, (size*25) + 25, (size - 1) * 25, 2))
 pygame.draw.rect(surface, color, pygame.Rect(25, 25, 2, size*25))
 pygame.draw.rect(surface, color, pygame.Rect((size*25) + 25, 25, 2, size*25))
 
