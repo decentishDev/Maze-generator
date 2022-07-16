@@ -28,7 +28,7 @@ function drawRectangles() {
         verticalLines.push(true);
     }
 
-    while(!horizontalDone && !verticalDone){
+    while(!horizontalDone || !verticalDone){
         deleteOne();
     }
 
