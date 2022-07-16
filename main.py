@@ -53,7 +53,6 @@ def deleteOne():
                 currentIndexes.remove(currentChoice)
                 if(len(currentIndexes) == 0):
                     horizontalDone = True
-                    deleteOne()
                     break
                 else:
                     currentChoice = random.choice(currentIndexes)
@@ -86,7 +85,6 @@ def deleteOne():
                 currentIndexes.remove(currentChoice)
                 if(len(currentIndexes) == 0):
                     verticalDone = True
-                    deleteOne()
                     break
                 else:
                     currentChoice = random.choice(currentIndexes)
@@ -104,7 +102,7 @@ def deleteOne():
 
 while horizontalDone == False & verticalDone == False:
     deleteOne()
-    
+
 for y in range(size-1):
     for x in range(size):
         if(horizontalLines[y*size + x] == True):

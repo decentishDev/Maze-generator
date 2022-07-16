@@ -1,4 +1,4 @@
-var size = 20;
+var size = 5;
 var squareGroups = [];
 var horizontalLines = [];
 var verticalLines = [];
@@ -58,6 +58,7 @@ function deleteOne(){
     }
     if(horizontalDone && verticalDone){
         sidePicked = 2;
+        console.log(squareGroups);
     }
     if(sidePicked == 0){
         var currentIndexes = [];
@@ -78,15 +79,17 @@ function deleteOne(){
                 }
             }
             if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[((thisRow+1)*size) + thisColumn]){
-                currentIndexes.splice(currentChoice)
+                //let arrayLength = currentIndexes.length
+                currentIndexes.splice(currentChoice);
+                //console.log(String(currentIndexes.length) + " " + String(arrayLength));
                 if(currentIndexes.length == 0){
                     horizontalDone = true;
-                    deleteOne();
                     break;
                 }else{
                     currentChoice = currentIndexes[Math.floor(Math.random() * currentIndexes.length)];
                 }
             }else{
+                //console.log("horizontal" + String(currentChoice) + " " + String((thisRow*size) + thisColumn) + " " + String(((thisRow+1)*size) + thisColumn));
                 horizontalLines[currentChoice] = false;
                 var changingIndexes = [];
                 for(let x = 0; x<squareGroups.length; x++){
@@ -118,16 +121,16 @@ function deleteOne(){
                     break;
                 }
             }
-            if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[(thisRow*size) + thisColumn + 1]){
-                currentIndexes.splice(currentChoice)
+            if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[(thisRow*size) + thisColumn + 1]){            
+                currentIndexes.splice(currentChoice);
                 if(currentIndexes.length == 0){
                     verticalDone = true;
-                    deleteOne();
                     break;
                 }else{
                     currentChoice = currentIndexes[Math.floor(Math.random() * currentIndexes.length)];
                 }
             }else{
+                //console.log("vertical" + String(currentChoice) + " " + String((thisRow*size) + thisColumn) + " " + String((thisRow*size) + thisColumn + 1));
                 verticalLines[currentChoice] = false;
                 var changingIndexes = [];
                 for(let x = 0; x<squareGroups.length; x++){
