@@ -80,7 +80,8 @@ function deleteOne(){
             }
             if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[((thisRow+1)*size) + thisColumn]){
                 //let arrayLength = currentIndexes.length
-                currentIndexes.splice(currentChoice);
+                let index = currentIndexes.indexOf(currentChoice);
+                currentIndexes.splice(index);
                 //console.log(String(currentIndexes.length) + " " + String(arrayLength));
                 if(currentIndexes.length == 0){
                     horizontalDone = true;
@@ -122,7 +123,8 @@ function deleteOne(){
                 }
             }
             if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[(thisRow*size) + thisColumn + 1]){            
-                currentIndexes.splice(currentChoice);
+                let index = currentIndexes.indexOf(currentChoice);
+                currentIndexes.splice(index);
                 if(currentIndexes.length == 0){
                     verticalDone = true;
                     break;
