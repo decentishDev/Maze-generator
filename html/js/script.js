@@ -21,16 +21,34 @@ function drawRectangles() {
     ctx.fillRect((size*25) + 25, 25, 2, size*25);
 
     for (let i = 0; i < size*size; i++) {
-        squareGroups.push(String(i));
+        squareGroups.push(String(i)+"a");
     }
     for (let i = 0; i < size*(size-1); i++) {
         horizontalLines.push(true);
         verticalLines.push(true);
     }
-
-    while(!horizontalDone || !verticalDone){
-        deleteOne();
+    var completelyDone = false;
+    while(!completelyDone){
+        while(!horizontalDone || !verticalDone){
+            deleteOne();
+        }
+        var done = true;
+        for(let i = 0; i<squareGroups.length; i++){
+            if(squareGroups[i] != "0a"){
+                done = false;
+                break
+            }
+        }
+        if(done){
+            completelyDone = true;
+        }else{
+            horizontalDone = false;
+            verticalDone = false;
+        }
     }
+    
+
+    console.log(squareGroups);
 
     for(let y = 0; y<size-1; y++){
         for(let x = 0; x<size; x++){
@@ -81,7 +99,7 @@ function deleteOne(){
             if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[((thisRow+1)*size) + thisColumn]){
                 //let arrayLength = currentIndexes.length
                 let index = currentIndexes.indexOf(currentChoice);
-                currentIndexes.splice(index);
+                let testsidk = currentIndexes.splice(index-1);
                 //console.log(String(currentIndexes.length) + " " + String(arrayLength));
                 if(currentIndexes.length == 0){
                     horizontalDone = true;
@@ -90,7 +108,7 @@ function deleteOne(){
                     currentChoice = currentIndexes[Math.floor(Math.random() * currentIndexes.length)];
                 }
             }else{
-                //console.log("horizontal" + String(currentChoice) + " " + String((thisRow*size) + thisColumn) + " " + String(((thisRow+1)*size) + thisColumn));
+                //onsole.log("horizontal" + String(currentChoice) + " " + String((thisRow*size) + thisColumn) + " " + String(((thisRow+1)*size) + thisColumn));
                 horizontalLines[currentChoice] = false;
                 var changingIndexes = [];
                 for(let x = 0; x<squareGroups.length; x++){
@@ -122,9 +140,11 @@ function deleteOne(){
                     break;
                 }
             }
-            if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[(thisRow*size) + thisColumn + 1]){            
+            if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[(thisRow*size) + thisColumn + 1]){
+                //console.log(currentIndexes);
                 let index = currentIndexes.indexOf(currentChoice);
-                currentIndexes.splice(index);
+                let textidk = currentIndexes.splice(index);
+                //console.log(currentIndexes);
                 if(currentIndexes.length == 0){
                     verticalDone = true;
                     break;
