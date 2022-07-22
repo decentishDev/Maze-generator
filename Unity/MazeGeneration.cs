@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeGeneration : MonoBehaviour {
-    public int size = 5;
+    public static int size = 20;
     List<string> squareGroups = new List<string>();
     List<bool> horizontalLines = new List<bool>();
     List<bool> verticalLines = new List<bool>();
@@ -15,6 +15,8 @@ public class MazeGeneration : MonoBehaviour {
 
     public bool alreadySpawned = false;
     public float timesLeft = 200f;
+
+    public GameObject playerGO;
 
     private void Update(){
         if(horizontalDone && verticalDone && !alreadySpawned){
@@ -49,6 +51,12 @@ public class MazeGeneration : MonoBehaviour {
             for(int y = 0; y<size; y++){
                 Instantiate(verticalRect, new Vector3((size)*1 + 0, (y*-1) - 0.5f, 0), Quaternion.identity);
             }
+
+            Controls.horizontalLines = horizontalLines.ToArray();
+            Controls.verticalLines = verticalLines.ToArray();
+
+            playerGO.SetActive(true);
+            Controls.inGame = true;
         }
     }
 
