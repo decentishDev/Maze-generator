@@ -3,73 +3,95 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MazeGeneration : MonoBehaviour {
-    public static int size = 20;
+    public static int sizeX = 20;
+    public static int sizeY = 30;
     List<string> squareGroups = new List<string>();
     List<bool> horizontalLines = new List<bool>();
     List<bool> verticalLines = new List<bool>();
-    public bool horizontalDone = false;
-    public bool verticalDone = false;
+    public bool horizontalDone = true;
+    public bool verticalDone = true;
 
     public GameObject horizontalRect;
     public GameObject verticalRect;
 
-    public bool alreadySpawned = false;
+    public bool alreadySpawned = true;
     public float timesLeft = 200f;
 
     public GameObject playerGO;
+    public GameObject loadingSymbol;
+
+    public static bool shouldSpawnOne = false;
 
     private void Update(){
         if(horizontalDone && verticalDone && !alreadySpawned){
             alreadySpawned = true;
             //Debug.Log("Horizontal " +string.Join(" ", horizontalLines.ToArray()));
             //Debug.Log("Vertical " +string.Join(" ", verticalLines.ToArray()));
-            for(int y = 0; y<size-1; y++){
-                for(int x = 0; x<size; x++){
-                    if(horizontalLines[y*size + x] == true){
+            for(int y = 0; y<sizeY-1; y++){
+                for(int x = 0; x<sizeX; x++){
+                    if(horizontalLines[y*sizeX + x] == true){
                         //pygame.draw.rect(surface, color, pygame.Rect((x*25) + 25, (y*25) + 50, 25, 2))
                         Instantiate(horizontalRect, new Vector3((x*1) + 0.5f, -1f*((y*1) + 1), 0), Quaternion.identity);
                     }
                 }
             }
-            for(int y = 0; y<size; y++){
-                for(int x = 0; x<size-1; x++){
-                    if(verticalLines[y*(size-1) + x] == true){
+            for(int y = 0; y<sizeY; y++){
+                for(int x = 0; x<sizeX-1; x++){
+                    if(verticalLines[y*(sizeX-1) + x] == true){
                         //pygame.draw.rect(surface, color, pygame.Rect((x*25) + 50, (y*25) + 25, 2, 25))
                         Instantiate(verticalRect, new Vector3((x*1) + 1f, -1f*(y*1 + 0.5f), 0), Quaternion.identity);
                     }
                 }
             }
-            for(int x = 0; x<size-1; x++){
+            for(int x = 0; x<sizeX-1; x++){
                 Instantiate(horizontalRect, new Vector3((x*1) + 0.5f, 0, 0), Quaternion.identity);
             }
-            for(int x = 1; x<size; x++){
-                Instantiate(horizontalRect, new Vector3((x*1) + 0.5f, (size*-1) - 0, 0), Quaternion.identity);
+            for(int x = 1; x<sizeX; x++){
+                Instantiate(horizontalRect, new Vector3((x*1) + 0.5f, (sizeY*-1) - 0, 0), Quaternion.identity);
             }
-            for(int y = 0; y<size; y++){
+            for(int y = 0; y<sizeY; y++){
                 Instantiate(verticalRect, new Vector3(0, (y*-1) - 0.5f, 0), Quaternion.identity);
             }
-            for(int y = 0; y<size; y++){
-                Instantiate(verticalRect, new Vector3((size)*1 + 0, (y*-1) - 0.5f, 0), Quaternion.identity);
+            for(int y = 0; y<sizeY; y++){
+                Instantiate(verticalRect, new Vector3((sizeX)*1 + 0, (y*-1) - 0.5f, 0), Quaternion.identity);
             }
 
             Controls.horizontalLines = horizontalLines.ToArray();
             Controls.verticalLines = verticalLines.ToArray();
 
+            loadingSymbol.SetActive(false);
+
             playerGO.SetActive(true);
             Controls.inGame = true;
         }
+
+        if(shouldSpawnOne){
+            shouldSpawnOne = false;
+            CreateOne();
+        }
+
     }
 
-    public void Start(){
-        for(int x = 0; x < size*size; x++){
+    public void CreateOne(){
+        horizontalLines.Clear();
+        verticalLines.Clear();
+        squareGroups.Clear();
+
+        alreadySpawned = false;
+        horizontalDone = false;
+        verticalDone = false;
+
+        for(int x = 0; x < sizeX*sizeY; x++){
             squareGroups.Add(x.ToString());
         }
-        for(int x = 0; x < size*(size-1); x++){
+        for(int x = 0; x < sizeX*(sizeY-1); x++){
             horizontalLines.Add(true);
+        }
+        for(int x = 0; x < sizeY*(sizeX-1); x++){
             verticalLines.Add(true);
         }
 
-        Invoke("deleteOne", 2f);
+        deleteOne();
     }
 
     void deleteOne(){
@@ -96,14 +118,15 @@ public class MazeGeneration : MonoBehaviour {
             for(int i = 0; i<indexesLength; i++){
                 int thisRow = 0;
                 int thisColumn = 0;
-                for(int x = 0; x < size; x++){
-                    if((currentChoice) - (size*(x + 1)) < 0){
+                for(int x = 0; x < sizeY; x++){
+                    if((currentChoice) - (sizeX*(x + 1)) < 0){
                         thisRow = x;
-                        thisColumn = currentChoice - size*x;
+                        thisColumn = currentChoice - sizeX*x;
                         break;
                     }
                 }
-                if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[((thisRow+1)*size) + thisColumn]){
+                //Debug.Log(thisRow.ToString() + "  " + thisColumn.ToString() + "  " + currentChoice.ToString());
+                if(squareGroups[(thisRow*sizeX) + thisColumn] == squareGroups[((thisRow+1)*sizeX) + thisColumn]){
                     //Debug.Log("horizontal same");
                     //Debug.Log("Horizontal before " +string.Join(" ", currentIndexes.ToArray()));
                     currentIndexes.Remove(currentChoice);
@@ -122,13 +145,13 @@ public class MazeGeneration : MonoBehaviour {
                     horizontalLines[currentChoice] = false;
                     List<int> changingIndexes = new List<int>();
                     for(int x = 0; x<squareGroups.Count; x++){
-                        if(squareGroups[x] == squareGroups[((thisRow+1)*size) + thisColumn]){
+                        if(squareGroups[x] == squareGroups[((thisRow+1)*sizeX) + thisColumn]){
                             changingIndexes.Add(x);
                         }
                     }
                     // = squareGroups[(thisRow*size) + thisColumn]
                     for(int x = 0; x<changingIndexes.Count; x++){
-                        squareGroups[changingIndexes[x]] = squareGroups[(thisRow*size) + thisColumn];
+                        squareGroups[changingIndexes[x]] = squareGroups[(thisRow*sizeX) + thisColumn];
                     }
                     break;
                 }
@@ -146,14 +169,14 @@ public class MazeGeneration : MonoBehaviour {
             for(int i = 0; i<indexesLength; i++){
                 int thisRow = 0;
                 int thisColumn = 0;
-                for(int x = 0; x < size; x++){
-                    if((currentChoice) - ((size-1)*(x + 1)) < 0){
+                for(int x = 0; x < sizeY; x++){
+                    if((currentChoice) - ((sizeX-1)*(x + 1)) < 0){
                         thisRow = x;
-                        thisColumn = currentChoice - ((size-1)*x);
+                        thisColumn = currentChoice - ((sizeX-1)*x);
                         break;
                     }
                 }
-                if(squareGroups[(thisRow*size) + thisColumn] == squareGroups[(thisRow*size) + thisColumn + 1]){
+                if(squareGroups[(thisRow*sizeX) + thisColumn] == squareGroups[(thisRow*sizeX) + thisColumn + 1]){
                     //Debug.Log("vertical same");
                     //Debug.Log("Vertical before " + string.Join(" ", currentIndexes.ToArray()));
                     currentIndexes.Remove(currentChoice);
@@ -172,13 +195,13 @@ public class MazeGeneration : MonoBehaviour {
                     verticalLines[currentChoice] = false;
                     List<int> changingIndexes = new List<int>();
                     for(int x = 0; x<squareGroups.Count; x++){
-                        if(squareGroups[x] == squareGroups[(thisRow*size) + thisColumn + 1]){
+                        if(squareGroups[x] == squareGroups[(thisRow*sizeX) + thisColumn + 1]){
                             changingIndexes.Add(x);
                         }
                     }
                     // = squareGroups[(thisRow*size) + thisColumn]
                     for(int x = 0; x<changingIndexes.Count; x++){
-                        squareGroups[changingIndexes[x]] = squareGroups[(thisRow*size) + thisColumn];
+                        squareGroups[changingIndexes[x]] = squareGroups[(thisRow*sizeX) + thisColumn];
                     }
                     break;
                 } 
