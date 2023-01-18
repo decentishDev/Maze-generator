@@ -56,10 +56,10 @@ function deleteOne(){
         sidePicked = 2;
     }
     if(sidePicked == 0){
-        List<int> currentIndexes = new List<int>();
-        for(var x = 0; x<horizontalLines.Count; x++){
+        const currentIndexes = [];
+        for(var x = 0; x<horizontalLines.length; x++){
             if(horizontalLines[x] == true){
-                currentIndexes.Add(x);
+                currentIndexes.push(x);
             }
         }
         var index = Random.Range(0, currentIndexes.Count);
@@ -93,8 +93,8 @@ function deleteOne(){
                 //Debug.Log("horizontal different");
                 //print("horizontal" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[((thisRow+1)*size) + thisColumn]))
                 horizontalLines[currentChoice] = false;
-                List<int> changingIndexes = new List<int>();
-                for(var x = 0; x<squareGroups.Count; x++){
+                const changingIndexes = [];
+                for(var x = 0; x<squareGroups.length; x++){
                     if(squareGroups[x] == squareGroups[((thisRow+1)*sizeX) + thisColumn]){
                         changingIndexes.Add(x);
                     }
@@ -107,7 +107,7 @@ function deleteOne(){
             }
         }
     }else if(sidePicked == 1){
-        List<int> currentIndexes = new List<int>();
+        const currentIndexes = [];
         for(var x = 0; x<verticalLines.Count; x++){
             if(verticalLines[x] == true){
                 currentIndexes.Add(x);
@@ -143,7 +143,7 @@ function deleteOne(){
                 //Debug.Log("vertical different");
                 //print("vertical" + str(currentChoice) + " " + str(squareGroups[(thisRow*size) + thisColumn]) + " " + str(squareGroups[(thisRow*size) + thisColumn + 1]))
                 verticalLines[currentChoice] = false;
-                List<int> changingIndexes = new List<int>();
+                const changingIndexes = [];
                 for(var x = 0; x<squareGroups.Count; x++){
                     if(squareGroups[x] == squareGroups[(thisRow*sizeX) + thisColumn + 1]){
                         changingIndexes.Add(x);
@@ -190,13 +190,13 @@ ctx.fillRect((size*25) + 25, 25, 2, size*25);
 
 
 for(var x = 0; x < sizeX*sizeY; x++){
-    squareGroups.Add(x.ToString());
+    squareGroups.push(x.ToString());
 }
 for(var x = 0; x < sizeX*(sizeY-1); x++){
-    horizontalLines.Add(true);
+    horizontalLines.push(true);
 }
 for(var x = 0; x < sizeY*(sizeX-1); x++){
-    verticalLines.Add(true);
+    verticalLines.push(true);
 }
 
 deleteOne();
