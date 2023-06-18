@@ -35,12 +35,14 @@ def deleteOne():
         sidePicked = 0
     if(horizontalDone & verticalDone):
         sidePicked = 2
+        
     if(sidePicked == 0):
         currentIndexes = []
         for x in range(len(horizontalLines)):
             if(horizontalLines[x] == True):
                 currentIndexes.append(x)
         currentChoice = random.choice(currentIndexes)
+
         for i in range(len(currentIndexes)):
             thisRow = 0
             thisColumn = 0
@@ -73,6 +75,7 @@ def deleteOne():
             if(verticalLines[x] == True):
                 currentIndexes.append(x)
         currentChoice = random.choice(currentIndexes)
+
         for i in range(len(currentIndexes)):
             thisRow = 0
             thisColumn = 0
